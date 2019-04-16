@@ -220,22 +220,53 @@ nodes，edges，以及global outputs也可以根据任务进行混合和匹配�
 ### 4.2 configurable within-block structure可配置的块内结构
 再次给出等式1:
 ![internal_structure_of_a_GN_block]()
-上图中，每一个φ必须用函数f来实现，f的参数决定了 使用何种信息作为input。下图显示了不同配置的GN block：
+上图中，每一个φ必须用函数f来实现，f的参数决定了 使用何种信息作为input。下图显示了不同内部配置的GN block：
 ![different_internal_GN_block_configurations]()
+
+GN框架中，各种其他的构架可以作为不同的函数选择和块内配置。
 #### 4.2.1 为什么说block内部是可配置的？如何实现？
 #### 4.2.2 几种不同的internal GN block配置
 + a full GN
 
-+ an independent,recurrent block
+Hamrick等(2018)和Sanchez-Gonzalez等(2018)使用图4a中所示的full GN block，其中φ实现使用神经网络（在下面表示为NNe，NNv和NNu，表示它们是具有不同参数的不同函数）。他们的ρ实现使用元素和，但也可以使用平均和最大或最小，
+![a_full_GN_block]()
+其中\[x，y，z]表示向量或张量拼接。for vector attributes，φ通常使用MLP；for tensors such as image feature maps，φ通常使用CNNs。
++ MPNN消息传递系统
+> --消息函数Mt，相当于GN中的φe，但是不接收u；
+> --用于GN的ρe→v的元素求和；
+> -- 更新函数Ut，相当于GN中的φv；
+> -- 读出函数R，相当于GN中的φu，但是不接收u或者E'，因此不需要与GN的ρe→u类似；
+> --dmaster与GN的u大致相似，但是被定义为连接到所有其他节点的额外节点，因此不会直接影响edge和global updates，然后它可以在GN的V中表示。
 
-+ an MPNN
++ NLNN非局部神经网络
+Wang等（2018c）的NLNN统一了各种“intra-/self-/vertex-/graph-attention内/自/顶点/图注意”方法（Lin et al.，2017; Vaswani et al.，2017; Hoshen，2017; Velickovi'c et al.，2018; Shaw et al.，2018），可转换成GN形式。
 
-+ a NLNN
+attention指代 节点是如何更新的：每个节点的更新基于其邻居的 节点属性加权和，其中节点与其邻居之间的权重由它们属性之间的
+标量成对函数计算得到（然后在邻居之间标准化）。已发布的NLNN计算所有节点之间的成对注意力加权。下图显示NLNN的结构：
+![NLNNs_as_GNs]()
 
-+ a relational network
+φe被分解为标量成对交互函数，返回两项：非标准化注意项$\alpha ^{e}(v_{r_{k}},v_{s_{k}}) = a_{k}^{'}$ 和 
+向量值非成对项$\beta ^{e}(v_{s_{k}})=b_{k}^{'}$. 在ρe→v聚合中,$a_{k}^{'}$ 项在每个接收器的边缘上进行归一化，$b_{k}^{'}$ 和元素求和,计算公式如下：
 
-+ a Deep Set 
+![formula_of_NLNNs]()
+
+该公式可能有助于仅关注与下游任务最相关的那些交互，特别是当输入实体是一组时，通过在它们之间添加所有可能的边来形成图。
++ CommNet(Sukhbaatar et al.，2016), structure2vec(Dai et al.，2016), gated graph sequence neural networks门控图序列神经网络(Li et al.， 2016)
+
+已使用不直接计算成对交互的φe，而是忽略接收节点，仅在发送方节点上操作，在某些情况下仅操作边缘属性。这可以通过具有以下签名的φe的实现来表达:
+![ignore_the_reciever_node]()
++ relational network (Raposo et al., 2017; Santoro et al., 2017) 
+
+忽视节点更新，直接从池化的边缘信息种预测全局输出：
+![ignore_nodes_update]()
++ a Deep Sets(Zaheer et al., 2017) 
+
+完全忽视边缘更新，直接从池化的节点信息中，预测全局输出：
+![ignore_edges_update]()
 ### 4.3 composable multi-block architectures可组合的多块结构
+图网络的一个关键设计原则是通过组合GN块来构建复杂的体系结构。我们定义了一个GN块，因为它始终将包含边，节点和全局元素的图作为输入，并返回一个与输出具有相同组成元素的图（当这些元素未明确更新时，只需将输入元素传递给输出）。这种图形到图形的输入/输出接口确保一个GN块的输出可以作为输入传递给另一个，即使它们的内部配置不同，类似于标准深度学习工具包的张量到张量接口。在最基本的形式中，两个GN块GN1和GN2可以通过将第一个输出作为输入,传递给第二个来组成GN1◦GN2,即G’ = GN2（GN1（G））。
+
+
 ### 4.4 implementating graph networks in code
 ### 4.5 summary
 ## 5 discussion
