@@ -248,11 +248,11 @@ Hamrick等(2018)和Sanchez-Gonzalez等(2018)使用图4a中所示的full GN block
 
 其中\[x，y，z]表示向量或张量拼接。for vector attributes，φ通常使用MLP；for tensors such as image feature maps，φ通常使用CNNs。
 + MPNN消息传递系统
-> --消息函数Mt，相当于GN中的φe，但是不接收u；
-> --用于GN的ρe→v的元素求和；
-> -- 更新函数Ut，相当于GN中的φv；
-> -- 读出函数R，相当于GN中的φu，但是不接收u或者E'，因此不需要与GN的ρe→u类似；
-> --dmaster与GN的u大致相似，但是被定义为连接到所有其他节点的额外节点，因此不会直接影响edge和global updates，然后它可以在GN的V中表示。
+> - 消息函数Mt，相当于GN中的φe，但是不接收u；
+> - 用于GN的ρe→v的元素求和；
+> - 更新函数Ut，相当于GN中的φv；
+> - 读出函数R，相当于GN中的φu，但是不接收u或者E'，因此不需要与GN的ρe→u类似；
+> - dmaster与GN的u大致相似，但是被定义为连接到所有其他节点的额外节点，因此不会直接影响edge和global updates，然后它可以在GN的V中表示。
 
 + NLNN非局部神经网络
 Wang等（2018c）的NLNN统一了各种“intra-/self-/vertex-/graph-attention内/自/顶点/图注意”方法（Lin et al.，2017; Vaswani et al.，2017; Hoshen，2017; Velickovi'c et al.，2018; Shaw et al.，2018），可转换成GN形式。
