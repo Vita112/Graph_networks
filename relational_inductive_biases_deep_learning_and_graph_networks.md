@@ -68,14 +68,52 @@ et al., 2018; Kipf et al., 2018; Gulcehre et al., 2018). ☞6.2
 ### 2.1 several basic concepts
 + relational reasoning关系推理
 
-+ inductive biases归纳偏置
-### 2.2 relational inductive biases in standard deep learning building blocks
-+ fully connected layers
+我们将structure定义为 组合一组已知构建块的产物。“structured representations”捕获这个组成（即元素的排列），“structured computations”作为一个整体对元素及其组成进行操作。关系推理涉及操纵实体和关系的结构化表示，使用
+关于如何组成他们的规则，部分术语解释如下：
+> 1. 实体是具有属性的元素，例如具有大小和质量的物理对象；
+> 2. 关系是实体之间的属性，两个物体之间的关系可能包括相同的尺寸、重量等；关系本身也可以具有属性，超过X倍的关系取一个属性X，它决定了关系的相对权重阈值是真是假；关系也可能对全局环境敏感，对于一个石头和一根羽毛，以更大的加速度下降这种关系依赖于上下文是在空气中，还是在真空中。**此处我们关注实体间的配对关系**。
+> 3. 规则是一个函数（如非二进制逻辑谓词），它将实体和关系映射到其他实体和关系。
 
+（Pearl，1988; Koller and Friedman，2009）演示了一个 在机器学习中应用图模型进行关系推理的实例，图模型可以通过在
+随机变量之间进行显式随机条件独立来表示复杂的联合分布。**这些模型十分成功，因为①能够捕获 许多现实世界
+生成过程的稀疏结构；②支持用于学习和推理的高效算法**。比如在隐马尔可夫模型中，在给定前一时间步状态的情况下下，限制latent states与其他状态条件独立，并且，在给定当前时间步latent state的情况下，限制观察值是条件独立的，这与许多现实世界的因果过程的关系结构十分匹配。
+
+明确表达变量之间的稀疏依赖关系提供了各种有效的推理算法，比如message-passing，它们在图模型内部的各个地方之间应用通用的消息传递过程，从而产生 一个可组合的、部分可并行的推理过程，此过程可应用于不同尺寸和形状的图模型。
++ inductive biases归纳偏置
+
+学习涉及搜索一个解决方案的空间，以期提供更好的数据解释，或者获得更高的回报。但在很多情况下，存在多种解决方案同样出色。**归纳偏置允许一种解决方案优先于另一种解决方案，并独立于观察数据；它对学习过程中实体间的关系和相互作用施加约束**。
+
+在贝叶斯模型中，通常通过先验分布的选择和参数化来表达归纳偏置；归纳偏置也可以是一个正则化项，被编码在算法本身的构架中，来避免过拟合。**归纳偏置通常会以牺牲灵活性为代价，来提高样本的复杂性，并且可以根据偏差-方差权衡来理解**。理想的归纳偏置，既可以改善对解决方案的搜索，又不会明显降低性能，并帮助找到以理想方式推广的方法。
+
+归纳偏置可以表达关于数据生成过程或解决方案空间的假设。举了2个例子：1. 当使用1-d函数来拟合数据时，线性最小二乘法遵循了一个限制：逼近函数应该是一个线性模型，并且在一个quadratic penalty二次惩罚下，approximation errors近似误差应该是最小的。**这反映出一个假设：数据生成过程可以被简单地解释为 一个被加性高斯噪声破坏的线性过程。**2。L2正则化优先考虑prioritize那些参数值更小的解决方案，并且可以针对其他不适定的问题ill-posed problems引入独特的解决方案和全局结构。**这可以被解释为一个关于学习过程的假设：当解决方案之间的模糊程度更小时，更容易找到好的解决方案**。注意：这些假设不需要是显式的，他们反映了模型或算法如何与世界交互。
++ elementary building blocks within creative new machine learning architectures in recent years
+
+在创新的新的机器学习构架中，实践者们通常**遵循组合elemantary building blocks的设计模式，以形成更复杂，更深的计算层级结构和图形**。例如fully connected layers，convolutional layers其实都可以看作是building blocks，**这些layers的组合提供了一种特殊的relational inductive bias类型，即分层处理hierarchical processing，处理过程中计算是分阶段进行的，通常导致输入信号中信息间的长距离交互**。下图显示了：building blocks本身带有各种关系归纳偏置：
+![relational_inductive_bias_in_standard_deep_learning_components]()
+
+除了上述这些关系归纳偏置外，深度学习中也使用了各种**非关系归纳偏置**，比如:激活非线性，权值衰减，丢弃法，批量和层归一化，数据增强data augmentation，training curricula训练课程和优化算法，这些都对学习轨迹和学习输出施加了限制。为方便探索在不同深度学习方法中的关系归纳偏置，理解不同构架间的 实体，关系以及规则的不同，探测每种构架如何支持关系推理，事先定义一下内容：
+> 1. 规则函数的参数，例如哪些实体和关系作为输入；
+> 2. 规则函数如何在计算图中复用或共享，比如跨不同实体和关系，跨不同时间或处理步骤；
+> 3. 框架如何定义表示之间的 interaction和isolation，比如通过应用规则来得出关于相关实体的结论，而不是单独分别处理他们。
+
+### 2.2 relational inductive biases in standard deep learning building blocks
++ fully connected layers全连接层
+通过一个非线性向量值函数实现，input为vector，output vector的每个元素通过一个带有偏置向的 权重-向量点积操作得到。在全连接层中，**实体：units in the network；关系：all-to-all；规则：specified by the weights and biases；没有复用，没有信息隔离；隐式关系归纳偏置非常弱：所有输入单元相互作用以确定任何输出单元的值，并且在各输出间独立**。
 + convolutional layers
 
+通过将input vector或者tensor与同等级的卷积核进行卷积，添加偏置项并应用逐点非线性来实现。**实体：individual units,or grid elements;但是关系更加稀疏**。在卷积层中有一些**重要的关系归纳偏置：局部性和平移不变性locality and
+translation invariance**。局部性指的是 关系规则的参数是在输入信号坐标空间中彼此靠近的实体，与远端实体隔离；平移不变性指的是 输入中跨局部区域复用相同的规则。
 + recurrent layers
+
+通过一系列steps来实现，**实体：每个处理步骤中的inputs和hidden states；关系：前一隐藏状态和当前输入的隐藏状态的马尔科夫依存；规则：将每一步的输入和隐藏状态作为参数，以更新隐层状态；规则在每个步骤中复用，反映出时间不变性temporal invariance的关系归纳偏置**。
+![reuse_and_sharing_in_common_deep_learning_building_blocks]()
 ### 2.3 computations over sets and graphs
+我们需要具有实体和关系的明确表示的模型，以及用于计算其交互的规则的学习算法，以及将它们置于数据中的方法。**注意：世界上的实体通常没有自然秩序，但是，可以通过实体间关系的属性进行排序**。通过关系推理的深度学习组件，应该反映这种顺序不变性，即用于处理sets和graphs的深度学习模型应该能够在不同排序方式下都有相同的结果。
+
+集合是用于 由其顺序是不确定的或者不相关的实体描述的 系统的自然表示，**集合中实体间的关系归纳偏置不是relation的存在，而是顺序的缺乏**。
+> 我的理解：是否可以理解为 集合中的关系归纳偏置是由内部各元素的排序来决定的，而顺序可以通过实体间关系的属性确定，那么，集合中实体间关系的属性的定义应该是十分关键的？
+
+
 ## 3 Graph Networks
 ### 3.1 Backgroud
 ### 3.2 Graph network block- main unit of computation in GNs
