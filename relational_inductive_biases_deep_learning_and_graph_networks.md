@@ -176,6 +176,7 @@ $$V^{'}={v_{i}^{'}}\_{i=1:N^{v}}$$
 弹簧示例中，对应于 计算更新每个球的位置、速度和动能等属性信息。
 > 4. ρe→u应用于$E^{'}$，并将所有边缘更新聚合成$\bar{e}^{'}$，然后将用于下一步的全局更新。弹簧示例中，对应于 计算力的总和，和弹簧的势能。
 > 5. ρv→u应用于$V^{'}$，并将所有节点更新聚合到$\bar{v}^{'}$，然后将用于下一步的全局更新.弹簧示例中，计算系统的总动能。
+> 6. 每个图形应用φu一次，并计算全局属性$u^{'}$的更新.弹簧示例中，计算出与物理系统的静力和总能量类似的东西。
 #### 3.2.4 relational inductive biases in graph networks
 ## 4 Design principles for graph network architectures
 ### 4.1 flexible representations灵活的表示
