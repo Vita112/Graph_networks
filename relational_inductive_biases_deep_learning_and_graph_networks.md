@@ -89,7 +89,7 @@ et al., 2018; Kipf et al., 2018; Gulcehre et al., 2018). ☞6.2
 + elementary building blocks within creative new machine learning architectures in recent years
 
 在创新的新的机器学习构架中，实践者们通常**遵循组合elemantary building blocks的设计模式，以形成更复杂，更深的计算层级结构和图形**。例如fully connected layers，convolutional layers其实都可以看作是building blocks，**这些layers的组合提供了一种特殊的relational inductive bias类型，即分层处理hierarchical processing，处理过程中计算是分阶段进行的，通常导致输入信号中信息间的长距离交互**。下图显示了：building blocks本身带有各种关系归纳偏置：
-![relational_inductive_bias_in_standard_deep_learning_components]()
+![relational_inductive_bias_in_standard_deep_learning_components](https://github.com/Vita112/Graph_networks/blob/master/img/relational_inductive_bias_in_standard_deep_learning_components.jpg)
 
 除了上述这些关系归纳偏置外，深度学习中也使用了各种**非关系归纳偏置**，比如:激活非线性，权值衰减，丢弃法，批量和层归一化，数据增强data augmentation，training curricula训练课程和优化算法，这些都对学习轨迹和学习输出施加了限制。为方便探索在不同深度学习方法中的关系归纳偏置，理解不同构架间的 实体，关系以及规则的不同，探测每种构架如何支持关系推理，事先定义一下内容：
 > 1. 规则函数的参数，例如哪些实体和关系作为输入；
@@ -106,7 +106,7 @@ translation invariance**。局部性指的是 关系规则的参数是在输入�
 + recurrent layers
 
 通过一系列steps来实现，**实体：每个处理步骤中的inputs和hidden states；关系：前一隐藏状态和当前输入的隐藏状态的马尔科夫依存；规则：将每一步的输入和隐藏状态作为参数，以更新隐层状态；规则在每个步骤中复用，反映出时间不变性temporal invariance的关系归纳偏置**。
-![reuse_and_sharing_in_common_deep_learning_building_blocks]()
+![reuse_and_sharing_in_common_deep_learning_building_blocks](https://github.com/Vita112/Graph_networks/blob/master/img/reuse_and_sharing_in_common_deep_learning_building_blocks.jpg)
 ### 2.3 computations over sets and graphs
 我们需要具有实体和关系的明确表示的模型，以及用于计算其交互的规则的学习算法，以及将它们置于数据中的方法。**注意：世界上的实体通常没有自然秩序，但是，可以通过实体间关系的属性进行排序**。通过关系推理的深度学习组件，应该反映这种顺序不变性，即用于处理sets和graphs的深度学习模型应该能够在不同排序方式下都有相同的结果。
 
@@ -140,7 +140,7 @@ translation invariance**。局部性指的是 关系规则的参数是在输入�
 
 Bronstein et al. (2017)提供了在非欧几里得数据上的 关于深度学习的优秀调研，探索了graph neural nets，graph convolution networks，related spectral approaches；
 
-Gilmer et al. (2017)引入了消息传得神经网络MPNN，统一了各种图神经网络和图卷积网络的方法(Monti et al., 2017; Bruna et al., 2014; Hena et al., 2015; Deerrard et al., 2016;Niepert et al., 2016; Kipf and Welling, 2017; Bronstein et al., 2017)
+Gilmer et al. (2017)引入了消息传得神经网络MPNN，统一了各种图神经网络和图卷积网络的方法(Monti et al., 2017; Bruna et al., 2014; Hena· et al., 2015; De·errard et al., 2016;Niepert et al., 2016; Kipf and Welling, 2017; Bronstein et al., 2017)
 
 Wang等人（2018c）引入了非局部神经网络（NLNN），它通过类比计算机视觉和图模型的方法，统一了各种“自我关注”式方法self-attention-style methods（Vaswani et al.，2017; Hoshen，2017; Velickovi'c et al.，2018），以捕获信号中的长距离依赖性。
 # 接下来开始，进入本文的核心部分！！！
@@ -151,10 +151,10 @@ Wang等人（2018c）引入了非局部神经网络（NLNN），它通过类比�
 
 GN框架的主要计算单元是GN block，它是一个graph-to-graph的模块，输入和输出都是graph，在结构上执行计算。GN 框架的block organization强调了可定制性，并且可以合成 表达关系归纳偏置的新结构。其设计原则将在后文中介绍。**为更具体地
 理解GN的形成机制，考虑在一个任意重力场中预测一组橡胶球的运动，这些橡胶球不是相互弹跳，而是每一个都一个，或多个弹簧将它们连接到其他一些（或者全部）的弹簧上**。下图描绘了一些常见场景：
-![different_graph_representations]()
+![different_graph_representations](https://github.com/Vita112/Graph_networks/blob/master/img/different_graph_representations.jpg)
 #### 3.2.1 definition of **Graph**-什么是“图”？
 图被定义为三元组G=(u, V, E),实体由图的nodes表示，关系由图的edges表示，global attributes表示system-level properties，结合下图：
-![definition_of_graph_in_this_paper]()
+![definition_of_graph_in_this_paper](https://github.com/Vita112/Graph_networks/blob/master/img/definition_of_graph_in_this_paper.jpg)
 u：global attribute。比如表示引力场；
 
 V：V={vi},nodes的集合，其中i=1:Nv,每一个vi是一个节点的属性。比如V代表每个球，具有位置，速度和质量的属性。
@@ -162,12 +162,12 @@ V：V={vi},nodes的集合，其中i=1:Nv,每一个vi是一个节点的属性。�
 E：E={(ek, rk, sk)},edges的集合，其中k=1:Ne，每个ek表示边的属性，rk是接收节点的索引，rs是发送节点的索引。比如E表示不同球之间是存在弹簧的，而且他们对应的弹簧是固定的。
 #### 3.2.2 internal structure of a GN block-一个GN block内部包含哪些组件？
 一个GN block包含3个更新函数φ，和3个聚集函数ρ：
-![internal_structure_of_a_GN_block]()
+![internal_structure_of_a_GN_block](https://github.com/Vita112/Graph_networks/blob/master/img/internal_structure_of_a_GN_block.jpg)
 
 φe被映射到所有edges以计算每个edge更新，φv被映射到所有nodes以计算每个node更新，并且φu被应用一次作为全局更新。每个ρ函数都将一个集合作为输入，并将其减少为表示聚合信息的单个元素。**ρ函数必须对其输入的排列不变，并且应该采用可变数量的参数（例如，元素求和，平均值，最大值等）***.
 #### 3.2.3 computational steps within a GN block-一个GN block内部如何进行计算？
 先看算法过程：
-![algorithm_steps_of_computation_in_a_full_GN_block]()
+![algorithm_steps_of_computation_in_a_full_GN_block](https://github.com/Vita112/Graph_networks/blob/master/img/algorithm_steps_of_computation_in_a_full_GN_block.jpg)
 下面对每一步进行解释：
 > 1. 每个边应用φe，使用参数（ek，vrk，vsk，u），并返回e'k。$E_{i}^{'}$表示为每个节点i产生的每个边的输出的集合：
 $$E_{i}^{'}={(e_{k}^{'},r_{k},s_{k})}\_{r_{k}=i,k=1:N^{e}}$$
@@ -214,14 +214,16 @@ nodes，edges，以及global outputs也可以根据任务进行混合和匹配�
 
 具有更明确规定的实体和关系的例子：knowledge graphs，social networks，parse tree，optimization problems等。
 
-关系结构不明确，必须被推断，或假设的例子：visual scenes，text corpora，programming language source code，multi-agent system等，在这些类型的设置中，数据可能被格式化为一个没有关系的实体的集合，或仅仅只是一个vector或者tensor。*如实体未明确规定，则可以假设它们，例如，通过 将一个句子的每个单词，或一个CNN输出特征映射中的每个局部特征向量 视为一个节点 (Watters et al., 2017; Santoro et al., 2017;Wang et al., 2018c) (Figures 2e-f)，或者使用一个单独的学习机制来推断来自非结构化信号的实体（Luong et al.，2015; Mnih et al.，2014; Eslami et al.，2016; van Steenkiste et al.，2018）。如果关系未被提供，最简单的方法是实例化实体间的所有可能有向边，但是，当实体很多时无法使用，因为可能的边缘数量将随着节点数量呈现二次方增长*。
+关系结构不明确，必须被推断，或假设的例子：visual scenes，text corpora，programming language source code，multi-agent system等，在这些类型的设置中，数据可能被格式化为一个没有关系的实体的集合，或仅仅只是一个vector或者tensor。
+
+*如实体未明确规定，则可以假设它们，例如，通过 将一个句子的每个单词，或一个CNN输出特征映射中的每个局部特征向量 视为一个节点 (Watters et al., 2017; Santoro et al., 2017;Wang et al., 2018c) (Figures 2e-f)，或者使用一个单独的学习机制来推断来自非结构化信号的实体（Luong et al.，2015; Mnih et al.，2014; Eslami et al.，2016; van Steenkiste et al.，2018）。如果关系未被提供，最简单的方法是实例化实体间的所有可能有向边，但是，当实体很多时无法使用，因为可能的边缘数量将随着节点数量呈现二次方增长*。
 
 **开发更复杂的方法来推断非结构化数据的稀疏结构，将是未来的重要方向**。
 ### 4.2 configurable within-block structure可配置的块内结构
 再次给出等式1:
-![internal_structure_of_a_GN_block]()
+![internal_structure_of_a_GN_block](https://github.com/Vita112/Graph_networks/blob/master/img/internal_structure_of_a_GN_block.jpg)
 上图中，每一个φ必须用函数f来实现，f的参数决定了 使用何种信息作为input。下图显示了不同内部配置的GN block：
-![different_internal_GN_block_configurations]()
+![different_internal_GN_block_configurations](https://github.com/Vita112/Graph_networks/blob/master/img/different_internal_GN_block_configurations.jpg)
 
 GN框架中，各种其他的构架可以作为不同的函数选择和块内配置。
 #### 4.2.1 为什么说block内部是可配置的？如何实现？
@@ -229,7 +231,7 @@ GN框架中，各种其他的构架可以作为不同的函数选择和块内配
 + a full GN
 
 Hamrick等(2018)和Sanchez-Gonzalez等(2018)使用图4a中所示的full GN block，其中φ实现使用神经网络（在下面表示为NNe，NNv和NNu，表示它们是具有不同参数的不同函数）。他们的ρ实现使用元素和，但也可以使用平均和最大或最小，
-![a_full_GN_block]()
+![a_full_GN_block](https://github.com/Vita112/Graph_networks/blob/master/img/a_full_GN_block.png)
 其中\[x，y，z]表示向量或张量拼接。for vector attributes，φ通常使用MLP；for tensors such as image feature maps，φ通常使用CNNs。
 + MPNN消息传递系统
 > --消息函数Mt，相当于GN中的φe，但是不接收u；
@@ -243,26 +245,26 @@ Wang等（2018c）的NLNN统一了各种“intra-/self-/vertex-/graph-attention�
 
 attention指代 节点是如何更新的：每个节点的更新基于其邻居的 节点属性加权和，其中节点与其邻居之间的权重由它们属性之间的
 标量成对函数计算得到（然后在邻居之间标准化）。已发布的NLNN计算所有节点之间的成对注意力加权。下图显示NLNN的结构：
-![NLNNs_as_GNs]()
+![NLNNs_as_GNs](https://github.com/Vita112/Graph_networks/blob/master/img/NLNNs_as_GNs.png)
 
 φe被分解为标量成对交互函数，返回两项：非标准化注意项$\alpha ^{e}(v_{r_{k}},v_{s_{k}}) = a_{k}^{'}$ 和 
 向量值非成对项$\beta ^{e}(v_{s_{k}})=b_{k}^{'}$. 在ρe→v聚合中,$a_{k}^{'}$ 项在每个接收器的边缘上进行归一化，$b_{k}^{'}$ 和元素求和,计算公式如下：
 
-![formula_of_NLNNs]()
+![formula_of_NLNNs](https://github.com/Vita112/Graph_networks/blob/master/img/formula_of_NLNNs.png)
 
 该公式可能有助于仅关注与下游任务最相关的那些交互，特别是当输入实体是一组时，通过在它们之间添加所有可能的边来形成图。
 + CommNet(Sukhbaatar et al.，2016), structure2vec(Dai et al.，2016), gated graph sequence neural networks门控图序列神经网络(Li et al.， 2016)
 
 已使用不直接计算成对交互的φe，而是忽略接收节点，仅在发送方节点上操作，在某些情况下仅操作边缘属性。这可以通过具有以下签名的φe的实现来表达:
-![ignore_the_reciever_node]()
+![ignore_the_reciever_node](https://github.com/Vita112/Graph_networks/blob/master/img/ignore_the_reciever_node.png)
 + relational network (Raposo et al., 2017; Santoro et al., 2017) 
 
 忽视节点更新，直接从池化的边缘信息种预测全局输出：
-![ignore_nodes_update]()
+![ignore_nodes_update](https://github.com/Vita112/Graph_networks/blob/master/img/ignore_nodes_update%5D.png)
 + a Deep Sets(Zaheer et al., 2017) 
 
 完全忽视边缘更新，直接从池化的节点信息中，预测全局输出：
-![ignore_edges_update]()
+![ignore_edges_update](https://github.com/Vita112/Graph_networks/blob/master/img/ignore_edges_update.png)
 ### 4.3 composable multi-block architectures可组合的多块结构
 图网络的一个关键设计原则是通过组合GN块来构建复杂的体系结构。我们定义了一个GN块，因为它始终将包含边，节点和全局元素的图作为输入，并返回一个与输出具有相同组成元素的图（当这些元素未明确更新时，只需将输入元素传递给输出）。这种图形到图形的输入/输出接口确保一个GN块的输出可以作为输入传递给另一个，即使它们的内部配置不同，类似于标准深度学习工具包的张量到张量接口。在最基本的形式中，两个GN块GN1和GN2可以通过将第一个输出作为输入,传递给第二个来组成GN1◦GN2,即G’ = GN2（GN1（G））。
 
