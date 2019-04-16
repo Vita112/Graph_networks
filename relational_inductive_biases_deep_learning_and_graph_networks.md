@@ -210,9 +210,18 @@ a GN block的输出可以根据任务的需求进行定制：
 
 nodes，edges，以及global outputs也可以根据任务进行混合和匹配。
 + 2. in terms of the structure of the graph itself依据图结构本身
+当定义输入数据如何被表示为一个图时，通常存在2种情景：①输入明确规定了关系结构；②关系结构必须被推导出，或者被假设。
 
+具有更明确规定的实体和关系的例子：knowledge graphs，social networks，parse tree，optimization problems等。
 
+关系结构不明确，必须被推断，或假设的例子：visual scenes，text corpora，programming language source code，multi-agent system等，在这些类型的设置中，数据可能被格式化为一个没有关系的实体的集合，或仅仅只是一个vector或者tensor。*如实体未明确规定，则可以假设它们，例如，通过 将一个句子的每个单词，或一个CNN输出特征映射中的每个局部特征向量 视为一个节点 (Watters et al., 2017; Santoro et al., 2017;Wang et al., 2018c) (Figures 2e-f)，或者使用一个单独的学习机制来推断来自非结构化信号的实体（Luong et al.，2015; Mnih et al.，2014; Eslami et al.，2016; van Steenkiste et al.，2018）。如果关系未被提供，最简单的方法是实例化实体间的所有可能有向边，但是，当实体很多时无法使用，因为可能的边缘数量将随着节点数量呈现二次方增长*。
+
+**开发更复杂的方法来推断非结构化数据的稀疏结构，将是未来的重要方向**。
 ### 4.2 configurable within-block structure可配置的块内结构
+再次给出等式1:
+![internal_structure_of_a_GN_block]()
+上图中，每一个φ必须用函数f来实现，f的参数决定了 使用何种信息作为input。下图显示了不同配置的GN block：
+![different_internal_GN_block_configurations]()
 #### 4.2.1 为什么说block内部是可配置的？如何实现？
 #### 4.2.2 几种不同的internal GN block配置
 + a full GN
