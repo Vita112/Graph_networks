@@ -1,12 +1,24 @@
 本文由DeepMind，Google Brain，MIT等机构的27位作者于2018年联合发表，文章的一大部分是对之前工作的整理和回顾，并提出了
 graph-to-graph的Graph Networks，which intend to incorporate deep learning methods and relational reasoning,
-and is hopeful to solve the problem of relational reasoning in deep learning. 以下开始是论文读书笔记：
+and is hopeful to solve the problem of relational reasoning in deep learning. 
+
+论文看了近10天，终于在今天0417把笔记做完了，以下是读完之后的感悟（由于水平有限，可能存在理解错误或误解，权当记录看后的感受）：
+> 1. 若按照机器学习的流派来看，个人认为本文提出的图网络是符号主义和连接主义的融合，试图使搭建好的网络既具备relational reasoning的能力，同时拥有很大的灵活性（个人认为表现在GN block的内部可配置性和GN blocks间的可组合性）。网络使用graph representation，用到了encoder-decoder框架，使得输入数据能够 
+在GNcore得到处理（等同于使其拥有GNcore能够处理的结构），并通过decoder解码后得到输出，因此GN blocks的内部结构可以不同，这并不影响它作为输入，传给下一个GN block。
+> 2. 关系推理能力在很大程度上依赖于组合泛化能力，即对有限方法进行无限的组合，因为虽然新的系统（可理解为一种结构/构架/框架）我们之前没有见过，但由于组成系统的components是我们熟知的，于是可以进行推理。推理前，必须考虑三个要素：
+```
+实体：也被称为对象，可理解为现实世界中存在的实体；
+关系：实体间的某种属性描述；
+规则：一个映射函数，描述实体和关系如何映射到其他实体和关系
+```
+> 3. 强调 提升组合泛化能力应该是实现类人AI的优先任务，论文提倡一种综合方法来实现它，即摒弃灵活性和结构性互不兼容的思想，使明确的结构化表示也可以灵活地被计算。于是graph networks应运而生：首先graph天然能够表示结构化数据，而我们选择以何种表示来表达属性和结构与关系归纳偏置密切相关，不同的关系归纳偏置会有不同的图表示，得到不同的graph blocks（对应图内可配置原则）；同样，graph blocks之间也可以有不同的组合，构成不同graph netwrks，比如是基于RNNs的，还是基于CNNs的。
+> 4. 本文试图从更高的角度，通过关系归纳偏置的视角，来解释deep learning methods中的各种模型，**是很大的创新**；论文认为graph networks可以综合 符号主义的注重结构表达和逻辑推理 以及 连接主义的各种灵活的深度学习模型 各自的优势，通过这种综合方法提高AI的泛化组合能力。
+## 以下开始是论文读书笔记：
 
 代码参见：[graph_nets](https://github.com/deepmind/graph_nets)
 ## 0 abstract
 极易获取的数据和较低的计算代价 十分契合 deep learning methods的天然优势，使得AI在诸如视觉、语言、控制等领域取得了很大的进步。
-但是，人工智能的很多defining characteristics，目前的方法无法实现，**具体来讲，在本文中作者指的是：人类将已知经验/知识推广到未知事物上的
-组合泛化能力**。
+但是，人工智能的很多defining characteristics，目前的方法无法实现，**具体来讲，在本文中作者指的是：人类将已知经验/知识推广到未知事物上的组合泛化能力**。
 
 论文主张：为了使AI具有类人智能，必须把combinatorial generalization作为首要优先的目标，实现这个目标的关键在于：结构化表示和结构化计算。
 （在本文中，这两个名词其实指的就是graphs以及computations over graphs，后续论述中我们将结合具体的任务和实现方式来获得关于它们的直观理解）。
@@ -188,7 +200,7 @@ $$V^{'}={v_{i}^{'}}\_{i=1:N^{v}}$$
 
 下图描述了 在边更新、节点更新、全局更新时，分别调用了哪些图元素：
 
-![updates_in_a_GN_block]()
+![updates_in_a_GN_block](https://github.com/Vita112/Graph_networks/blob/master/img/updates_in_a_GN_block.png)
 
 **注意：虽然我们给出了步骤顺序，但，不一定严格按照这个顺序执行**。比如，可以反转更新函数，以从全局，每个节点再到每个边的顺序更新。
 #### 3.2.4 relational inductive biases in graph networks
@@ -287,11 +299,11 @@ attention指代 节点是如何更新的：每个节点的更新基于其邻居�
 ### 4.3 composable multi-block architectures可组合的多块结构
 图网络的一个关键设计原则是通过组合GN块来构建复杂的体系结构。我们定义了一个GN块，因为它始终将包含边，节点和全局元素的图作为输入，并返回一个与输出具有相同组成元素的图（当这些元素未明确更新时，只需将输入元素传递给输出）。**这种graph-to-graph input/output interface确保一个GN块的输出可以作为输入传递给另一个，即使它们的内部配置不同**，类似于标准深度学习工具包的tensor-to-tensor interface。在最基本的形式中，两个GN块GN1和GN2可以通过将第一个输出作为输入,传递给第二个来组成GN1◦GN2,即G’ = GN2（GN1（G））。
 
-![composable multi-block architectures]()
+![composable multi-block architectures](https://github.com/Vita112/Graph_networks/blob/master/img/composable%20multi-block%20architectures.png)
 
 可以组合任意数量的GN bolcks(如上图a，顺次组合多个GN blocks以得到一个GN core)，这些blocks可以共享（复用的参数/功能，analogous to unrolled RNNs），也可以不共享（不同的功能/参数，analogous to CNNs）。GN blocks配置共享与message-passing类似，过程中相同的本地更新过程被迭代的用于在结构之间传递信息。见下图：
 
-![example_of_message_passing]()
+![example_of_message_passing](https://github.com/Vita112/Graph_networks/blob/master/img/example_of_message_passing.jpg)
 
 如果我们排出全局u(u聚集了跨实体和跨边缘的信息)，那么，在m个传播步骤后，一个节点可访问的信息由 最多m跳的节点和边缘的集合决定。**这可以解释为将复杂计算分解为更小的基本步骤，这些步骤可用于及时捕获顺序性**。
 
