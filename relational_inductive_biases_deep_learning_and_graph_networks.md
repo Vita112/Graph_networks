@@ -58,8 +58,7 @@ Liu, 2018)  ☞6.1
 structured approaches和deep learning的手段要相互结合，二者相辅相成，才能取得更好的效果。
 
 最近出现了一些将深度学习和structured approaches相结合的学习模型，具体来讲，其实就是处理graph数据的模型。这些模型
-都有一个共同点：能够在离散的实体，以及这些离散实体间的关系上进行计算。他们与传统方法的区别在于：**实体和关系，以及其对应的计算的
-表示和结构是如何被学习的？并且这些方法都带有很强的关系归纳偏置，以特定结构假设的形式指导这些方法学习实体和关系**。
+都有一个共同点：能够在离散的实体，以及这些离散实体间的关系上进行计算。他们与传统方法的区别在于：**实体和关系，以及其对应的计算的表示和结构是如何被学习的？并且这些方法都带有很强的关系归纳偏置，以特定结构假设的形式指导这些方法学习实体和关系**。
 
 参考文献：(e.g. Scarselli et al., 2009b; Bronstein et al., 2017; Gilmer et al., 2017; Wang et al., 2018c; Li
 et al., 2018; Kipf et al., 2018; Gulcehre et al., 2018). ☞6.2
@@ -74,9 +73,7 @@ et al., 2018; Kipf et al., 2018; Gulcehre et al., 2018). ☞6.2
 > 2. 关系是实体之间的属性，两个物体之间的关系可能包括相同的尺寸、重量等；关系本身也可以具有属性，超过X倍的关系取一个属性X，它决定了关系的相对权重阈值是真是假；关系也可能对全局环境敏感，对于一个石头和一根羽毛，以更大的加速度下降这种关系依赖于上下文是在空气中，还是在真空中。**此处我们关注实体间的配对关系**。
 > 3. 规则是一个函数（如非二进制逻辑谓词），它将实体和关系映射到其他实体和关系。
 
-（Pearl，1988; Koller and Friedman，2009）演示了一个 在机器学习中应用图模型进行关系推理的实例，图模型可以通过在
-随机变量之间进行显式随机条件独立来表示复杂的联合分布。**这些模型十分成功，因为①能够捕获 许多现实世界
-生成过程的稀疏结构；②支持用于学习和推理的高效算法**。比如在隐马尔可夫模型中，在给定前一时间步状态的情况下下，限制latent states与其他状态条件独立，并且，在给定当前时间步latent state的情况下，限制观察值是条件独立的，这与许多现实世界的因果过程的关系结构十分匹配。
+（Pearl，1988; Koller and Friedman，2009）演示了一个 在机器学习中应用图模型进行关系推理的实例，图模型可以通过在随机变量之间进行显式随机条件独立来表示复杂的联合分布。**这些模型十分成功，因为①能够捕获 许多现实世界生成过程的稀疏结构；②支持用于学习和推理的高效算法**。比如在隐马尔可夫模型中，在给定前一时间步状态的情况下下，限制latent states与其他状态条件独立，并且，在给定当前时间步latent state的情况下，限制观察值是条件独立的，这与许多现实世界的因果过程的关系结构十分匹配。
 
 明确表达变量之间的稀疏依赖关系提供了各种有效的推理算法，比如message-passing，它们在图模型内部的各个地方之间应用通用的消息传递过程，从而产生 一个可组合的、部分可并行的推理过程，此过程可应用于不同尺寸和形状的图模型。
 + inductive biases归纳偏置
@@ -85,7 +82,7 @@ et al., 2018; Kipf et al., 2018; Gulcehre et al., 2018). ☞6.2
 
 在贝叶斯模型中，通常通过先验分布的选择和参数化来表达归纳偏置；归纳偏置也可以是一个正则化项，被编码在算法本身的构架中，来避免过拟合。**归纳偏置通常会以牺牲灵活性为代价，来提高样本的复杂性，并且可以根据偏差-方差权衡来理解**。理想的归纳偏置，既可以改善对解决方案的搜索，又不会明显降低性能，并帮助找到以理想方式推广的方法。
 
-归纳偏置可以表达关于数据生成过程或解决方案空间的假设。举了2个例子：1. 当使用1-d函数来拟合数据时，线性最小二乘法遵循了一个限制：逼近函数应该是一个线性模型，并且在一个quadratic penalty二次惩罚下，approximation errors近似误差应该是最小的。**这反映出一个假设：数据生成过程可以被简单地解释为 一个被加性高斯噪声破坏的线性过程。**2。L2正则化优先考虑prioritize那些参数值更小的解决方案，并且可以针对其他不适定的问题ill-posed problems引入独特的解决方案和全局结构。**这可以被解释为一个关于学习过程的假设：当解决方案之间的模糊程度更小时，更容易找到好的解决方案**。注意：这些假设不需要是显式的，他们反映了模型或算法如何与世界交互。
+归纳偏置可以表达关于数据生成过程或解决方案空间的假设。举了2个例子：1. 当使用1-d函数来拟合数据时，线性最小二乘法遵循了一个限制：逼近函数应该是一个线性模型，并且在一个quadratic penalty二次惩罚下，approximation errors近似误差应该是最小的。**这反映出一个假设：数据生成过程可以被简单地解释为 一个被加性高斯噪声破坏的线性过程**2。L2正则化优先考虑prioritize那些参数值更小的解决方案，并且可以针对其他不适定的问题ill-posed problems引入独特的解决方案和全局结构。**这可以被解释为一个关于学习过程的假设：当解决方案之间的模糊程度更小时，更容易找到好的解决方案**。注意：这些假设不需要是显式的，他们反映了模型或算法如何与世界交互。
 + elementary building blocks within creative new machine learning architectures in recent years
 
 在创新的新的机器学习构架中，实践者们通常**遵循组合elemantary building blocks的设计模式，以形成更复杂，更深的计算层级结构和图形**。例如fully connected layers，convolutional layers其实都可以看作是building blocks，**这些layers的组合提供了一种特殊的relational inductive bias类型，即分层处理hierarchical processing，处理过程中计算是分阶段进行的，通常导致输入信号中信息间的长距离交互**。下图显示了：building blocks本身带有各种关系归纳偏置：
@@ -99,11 +96,11 @@ et al., 2018; Kipf et al., 2018; Gulcehre et al., 2018). ☞6.2
 
 ### 2.2 relational inductive biases in standard deep learning building blocks
 + fully connected layers全连接层
+
 通过一个非线性向量值函数实现，input为vector，output vector的每个元素通过一个带有偏置向的 权重-向量点积操作得到。在全连接层中，**实体：units in the network；关系：all-to-all；规则：specified by the weights and biases；没有复用，没有信息隔离；隐式关系归纳偏置非常弱：所有输入单元相互作用以确定任何输出单元的值，并且在各输出间独立**。
 + convolutional layers
 
-通过将input vector或者tensor与同等级的卷积核进行卷积，添加偏置项并应用逐点非线性来实现。**实体：individual units,or grid elements;但是关系更加稀疏**。在卷积层中有一些**重要的关系归纳偏置：局部性和平移不变性locality and
-translation invariance**。局部性指的是 关系规则的参数是在输入信号坐标空间中彼此靠近的实体，与远端实体隔离；平移不变性指的是 输入中跨局部区域复用相同的规则。
+通过将input vector或者tensor与同等级的卷积核进行卷积，添加偏置项并应用逐点非线性来实现。**实体：individual units,or grid elements;但是关系更加稀疏**。在卷积层中有一些**重要的关系归纳偏置：局部性和平移不变性locality and translation invariance**。局部性指的是 关系规则的参数是在输入信号坐标空间中彼此靠近的实体，与远端实体隔离；平移不变性指的是 输入中跨局部区域复用相同的规则。
 + recurrent layers
 
 通过一系列steps来实现，**实体：每个处理步骤中的inputs和hidden states；关系：前一隐藏状态和当前输入的隐藏状态的马尔科夫依存；规则：将每一步的输入和隐藏状态作为参数，以更新隐层状态；规则在每个步骤中复用，反映出时间不变性temporal invariance的关系归纳偏置**。
@@ -112,15 +109,15 @@ translation invariance**。局部性指的是 关系规则的参数是在输入�
 ### 2.3 computations over sets and graphs
 我们需要具有实体和关系的明确表示的模型，以及用于计算其交互的规则的学习算法，以及将它们置于数据中的方法。**注意：世界上的实体通常没有自然秩序，但是，可以通过实体间关系的属性进行排序**。通过关系推理的深度学习组件，应该反映这种顺序不变性，即用于处理sets和graphs的深度学习模型应该能够在不同排序方式下都有相同的结果。
 
-集合是用于 由其顺序是不确定的或者不相关的实体描述的 系统的自然表示，**集合中实体间的关系归纳偏置不是relation的存在，而是顺序的缺席**。
-> 我的理解：是否可以理解为 集合中的关系归纳偏置是由内部各元素的排序来决定的，而顺序可以通过实体间关系的属性确定，那么，集合中实体间关系的属性的定义应该是十分关键的？
+集合是用于 由内部的顺序是不确定的或者不相关的实体描述的 系统的自然表示，**集合中实体间的关系归纳偏置不是relation的存在，而是顺序的缺席**。
+> 我的理解：是否可以理解为 集合中各个元素没有顺序就是集合的关系归纳偏置? 也就是说 集合具有置换不变性。但有一点需要注意：顺序可以通过实体间关系的属性确定。于是，**我们如何定义属性之间的规则决定了我们构建何种结构的图**。
 
 为解释这句话☝，论文给出了第一个任务：预测n个行星组成的太阳系的质心。任务中，行星集合的顺序无关紧要，因为状态仅依据聚集的平均数量便可以被描述。**这个任务不可以使用MLP来解决，这是因为：在MLP中，针对一个特殊的input{x1,x2,……,xn}所学习到的预测并不一定会转化到一个 拥有不同顺序的同样的input中,即MLP对每一个每一个输入都是按照单独的方式处理，而不是一视同仁地处理所有输入。因为集合中存在n!个这样的可能置换，并且在更坏的情况下， 使用MLP将导致combinatorial explosion**。这个例子说明了处理sets时，应该遵循置换不变性permutation invariance的关系归纳偏置。
 
 在许多问题中，置换不变性并不是唯一重要的基本结构形式。例如，**集合中的每个对象都可能受到与集合中其他对象的成对交互的影响**。现在考虑这样一个任务：预测行星系统中，在一个时间间隔δt之后的每个个体行星的位置。此时使用上段中的那种方法（使用聚合的平均信息）显然是不够准确的，因为每个行星的运动依赖于其他行星对其施加的力。在这个任务中，需要考虑系统的全局置换不变性，并且考虑了2个参数（这个例子中指的是2个行星）。
 
 上述2个任务说明了2种关系结构：一种是实体间不存在任何关系；一种是每两个实体间存在配对关系。许多现实世界的系统拥有 
-在这两个极端之间的某处的一个关系结构，就是说现实世界中，一些实体对拥有一个关系，而另一些则没有。
+在这两个极端之间的某处的一个关系结构，就是说现实世界中，一些实体对之间存在一个关系，而另一些则没有。
 > 我的理解：哲学上我们讲，整个世界处在相互联系的体系中，任何事物不可能孤立于其他事物而单独存在，世界的本质是联系的，发展的，联系是普遍的，发展是曲折的。而认知世界需要这样的联系发展思维，如果能够捕获到现实世界中实体间的关系，他们是交互的，还是条件独立的，这将有助于我们理解更为复杂的现实世界。
 
 回到太阳系的例子中，如果整个系统由行星及其各自的卫星组成，那么在预测时，我们可以通过忽略行星们各自的卫星之间的相互作用，来近似得到各个行星间的关系。**这种思想正好对应于图，因为在图体系中，第i个对象仅与 其邻域描述的其他对象的子集产生交互。注意，更新后的状态仍然不依赖于我们描述邻域的顺序**。
@@ -151,8 +148,7 @@ Wang等人（2018c）引入了非局部神经网络（NLNN），它通过类比�
 
 **但关于如何构建这个具体操作问题，本文似乎并没有叙述**。
 
-GN框架的主要计算单元是GN block，它是一个graph-to-graph的模块，输入和输出都是graph，在结构上执行计算。GN 框架的block organization强调了可定制性，并且可以合成 表达关系归纳偏置的新结构。其设计原则将在后文中介绍。**为更具体地
-理解GN的形成机制，考虑在一个任意重力场中预测一组橡胶球的运动，这些橡胶球不是相互弹跳，而是每一个都一个，或多个弹簧将它们连接到其他一些（或者全部）的弹簧上**。下图描绘了一些常见场景：
+GN框架的主要计算单元是GN block，它是一个graph-to-graph的模块，输入和输出都是graph，在结构上执行计算。GN 框架的block organization强调了可定制性，并且可以合成 表达关系归纳偏置的新结构。其设计原则将在后文中介绍。**为更具体地理解GN的形成机制，考虑在一个任意重力场中预测一组橡胶球的运动，这些橡胶球不是相互弹跳，而是每一个都一个，或多个弹簧将它们连接到其他一些（或者全部）的弹簧上**。下图描绘了一些常见场景：
 
 ![different_graph_representations](https://github.com/Vita112/Graph_networks/blob/master/img/different_graph_representations.jpg)
 #### 3.2.1 definition of **Graph**-什么是“图”？
@@ -170,7 +166,7 @@ E：E={(ek, rk, sk)},edges的集合，其中k=1:Ne，每个ek表示边的属性�
 
 ![internal_structure_of_a_GN_block](https://github.com/Vita112/Graph_networks/blob/master/img/internal_structure_of_a_GN_block.jpg)
 
-φe被映射到所有edges以计算每个edge更新，φv被映射到所有nodes以计算每个node更新，并且φu被应用一次作为全局更新。每个ρ函数都将一个集合作为输入，并将其减少为表示聚合信息的单个元素。**ρ函数必须对其输入的排列不变，并且应该采用可变数量的参数（例如，元素求和，平均值，最大值等）***.
+φe被映射到所有edges以计算每个edge更新，φv被映射到所有nodes以计算每个node更新，并且φu被应用一次作为全局更新。每个ρ函数都将一个集合作为输入，并将其减少为表示聚合信息的单个元素。**ρ函数必须对其输入的排列不变，并且应该采用可变数量的参数（例如，元素求和，平均值，最大值等）**.
 #### 3.2.3 computational steps within a GN block-一个GN block内部如何进行计算？
 先看算法过程：
 
@@ -198,27 +194,28 @@ $$V^{'}={v_{i}^{'}}\_{i=1:N^{v}}$$
 
 2. graphs represent entities and their relations as sets，which are invariant to permutations.这意味着 **GNs对集合中的元素的顺序具有不变性**。
 
-3. a GN's per-edge and per-node functions are reused across all edges and nodes, respectively.（GN的每条边和每个节点函数分别在所有边和所有节点上复用），这意味着 **GNs自动支持一种组合泛化形式（参见5.1，即GNs的结构不仅严格地执行计算at system level，而且跨实体和跨关系地应用了shared computations），这允许对前所未见的系统进行推理），因为：graphs由edges，nodes以及global features组成，单个的GN可以在不同大小（由edges和nodes的数量决定）和形状（edge连接）上进行操作。
+3. a GN's per-edge and per-node functions are reused across all edges and nodes, respectively.（GN的每条边和每个节点函数分别在所有边和所有节点上复用），这意味着 **GNs自动支持一种组合泛化形式（参见5.1，即GNs的结构不仅严格地执行计算at system level，而且跨实体和跨关系地应用了shared computations），这允许对前所未见的系统进行推理），因为：graphs由edges，nodes以及global features组成，单个的GN可以在不同大小（由edges和nodes的数量决定）和形状（edge连接）上进行操作**。
 ## 4 Design principles for graph network architectures
 GN框架可以用于实现各种构架设计。**but，如何实现？**
 
 通常，框架对于具体的属性表示和函数形式是不可知的。*此处，本文主要聚焦在深度学习构架上，这允许GNs充当可学习的graph-to-graph function approximators*。
 ### 4.1 flexible representations灵活的表示
-通过2种方式，GNs support highly flexible graph representations
+通过2种方式，GNs support highly flexible graph representations。
 + 1. in terms of the representations of the attributes依据属性表示
 
 一个GN block的global、node和edge的属性可以使用任意的表示形式。比如深度学习中最常用real-valued vectors和tensors；也可以
 使用诸如sequences、sets、甚至是graphs等其他的数据结构。**问题的要求通常决定了为属性使用哪种表示**，当input data is an image，属性一般被表示为tensors of image patches；当input data is a text document，属性可能被表示为对应句子的单词的序列。
 
-在更广泛框架内的每个GN block，edge 和 node输出通常对应于 vectors和tensors 的列表，每个edge和node，以及global outputs对应于a single vector or tensor。**这使得GN的输出可以传给其他深度学习构建块，比如MLPs，CNNs以及RNNs。
+在更广泛框架内的每个GN block，edge 和 node输出通常对应于 vectors和tensors 的列表，每个edge和node，以及global outputs对应于a single vector or tensor。**这使得GN的输出可以传给其他深度学习构建块，比如MLPs，CNNs以及RNNs**。
 
 a GN block的输出可以根据任务的需求进行定制：
-> - an edge-focused GN边缘聚焦GN使用edges作为输出，比如对实体间的交互做决策。
-> - an node-focused GN节点聚焦GN使用nodes作为输出，比如关于物理系统的推理。
-> - an graph-focsed GN图聚焦GN使用全局变量作为输出，比如回答有关视觉场景的问题等。
+> - an edge-focused GN边缘聚焦GN：使用edges作为输出，比如对实体间的交互做决策。
+> - an node-focused GN节点聚焦GN：使用nodes作为输出，比如关于物理系统的推理。
+> - an graph-focsed GN图聚焦GN：使用全局变量作为输出，比如回答有关视觉场景的问题等。
 
 nodes，edges，以及global outputs也可以根据任务进行混合和匹配。
 + 2. in terms of the structure of the graph itself依据图结构本身
+
 当定义输入数据如何被表示为一个图时，通常存在2种情景：①输入明确规定了关系结构；②关系结构必须被推导出，或者被假设。
 
 具有更明确规定的实体和关系的例子：knowledge graphs，social networks，parse tree，optimization problems等。
@@ -248,6 +245,7 @@ Hamrick等(2018)和Sanchez-Gonzalez等(2018)使用图4a中所示的full GN block
 
 其中\[x，y，z]表示向量或张量拼接。for vector attributes，φ通常使用MLP；for tensors such as image feature maps，φ通常使用CNNs。
 + MPNN消息传递系统
+
 > - 消息函数Mt，相当于GN中的φe，但是不接收u；
 > - 用于GN的ρe→v的元素求和；
 > - 更新函数Ut，相当于GN中的φv；
@@ -255,6 +253,7 @@ Hamrick等(2018)和Sanchez-Gonzalez等(2018)使用图4a中所示的full GN block
 > - dmaster与GN的u大致相似，但是被定义为连接到所有其他节点的额外节点，因此不会直接影响edge和global updates，然后它可以在GN的V中表示。
 
 + NLNN非局部神经网络
+
 Wang等（2018c）的NLNN统一了各种“intra-/self-/vertex-/graph-attention内/自/顶点/图注意”方法（Lin et al.，2017; Vaswani et al.，2017; Hoshen，2017; Velickovi'c et al.，2018; Shaw et al.，2018），可转换成GN形式。
 
 attention指代 节点是如何更新的：每个节点的更新基于其邻居的 节点属性加权和，其中节点与其邻居之间的权重由它们属性之间的
@@ -284,10 +283,25 @@ attention指代 节点是如何更新的：每个节点的更新基于其邻居�
 
 ![ignore_edges_update](https://github.com/Vita112/Graph_networks/blob/master/img/ignore_edges_update.png)
 ### 4.3 composable multi-block architectures可组合的多块结构
-图网络的一个关键设计原则是通过组合GN块来构建复杂的体系结构。我们定义了一个GN块，因为它始终将包含边，节点和全局元素的图作为输入，并返回一个与输出具有相同组成元素的图（当这些元素未明确更新时，只需将输入元素传递给输出）。这种图形到图形的输入/输出接口确保一个GN块的输出可以作为输入传递给另一个，即使它们的内部配置不同，类似于标准深度学习工具包的张量到张量接口。在最基本的形式中，两个GN块GN1和GN2可以通过将第一个输出作为输入,传递给第二个来组成GN1◦GN2,即G’ = GN2（GN1（G））。
+图网络的一个关键设计原则是通过组合GN块来构建复杂的体系结构。我们定义了一个GN块，因为它始终将包含边，节点和全局元素的图作为输入，并返回一个与输出具有相同组成元素的图（当这些元素未明确更新时，只需将输入元素传递给输出）。**这种graph-to-graph input/output interface确保一个GN块的输出可以作为输入传递给另一个，即使它们的内部配置不同**，类似于标准深度学习工具包的tensor-to-tensor interface。在最基本的形式中，两个GN块GN1和GN2可以通过将第一个输出作为输入,传递给第二个来组成GN1◦GN2,即G’ = GN2（GN1（G））。
 
+![composable multi-block architectures]()
 
+可以组合任意数量的GN bolcks(如上图a，顺次组合多个GN blocks以得到一个GN core)，这些blocks可以共享（复用的参数/功能，analogous to unrolled RNNs），也可以不共享（不同的功能/参数，analogous to CNNs）。GN blocks配置共享与message-passing类似，过程中相同的本地更新过程被迭代的用于在结构之间传递信息。见下图：
+
+![example_of_message_passing]()
+
+如果我们排出全局u(u聚集了跨实体和跨边缘的信息)，那么，在m个传播步骤后，一个节点可访问的信息由 最多m跳的节点和边缘的集合决定。**这可以解释为将复杂计算分解为更小的基本步骤，这些步骤可用于及时捕获顺序性**。
+
+常见的构架设计是**编码-处理-解码配置encoude-processing-decoder configuration**(上图b)，GNcore是一个共享核心块，执行M次后，返回$\mathbf{G}\_{M}$.构架显示：图输入经过编码操作后，被送入GNcore，经过GNcore操作的结果经decoder解码后，得到图输出。
+
+构建基于RNN的GNs(上图c，encode-processing-decode architecture被用于一个序列设置，其中core不仅在每个时间步中复用，还随着时间而展开-潜在地使用一个GRU/LSTM结构)：当前时刻t 接收上一时刻t-1的hidden graph $G_{hid}^{t-1}$和当前时刻t的经过编码后的input 作为输入，传给GNcore处理后，返回当前时刻t的hidden graph $G_{hid}^{t}$，同时将结果传给decoder处理，得到最终输出。**这种类型的构架对于预测图的序列特别有用**。GNenc输出的编码图必须与$G_{hid}^{t}$具有相同的结构，且在被输入给GNcore之前，可通过拼接他们各自对应的ek，vi和u向量，来轻松地组合它们。设计通过若干种方式复用GN blocks：GNenc和GNdec，并且，GNcore跨越每一个步骤t被复用，在每个步骤中，GNcore可能执行多个共享子步骤。
 ### 4.4 implementating graph networks in code
+GNs天然具有并行结构：φe和φv分别在edges和nodes上复用。这意味着 **nodes和edges可以被看成是 一个典型的小批量训练方案中的批量维度，此外，通过将几个图看做一个更大的图的不互斥分量，这些图可以被自然地批量处理**。
+
+复用φe和φv可以提高GNs的样本效率：用于优化GNs的φe和φv的样本数量分别是所有训练图上的edges和nodes的数量。
+
+for open-souce code for buildinig GNs，refers to [graph_nets]()
 ### 4.5 summary
 ## 5 discussion
 ## 5.1 combinational generalization in graph networks
