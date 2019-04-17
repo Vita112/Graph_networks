@@ -1,6 +1,8 @@
 本文由DeepMind，Google Brain，MIT等机构的27位作者于2018年联合发表，文章的一大部分是对之前工作的整理和回顾，并提出了
 graph-to-graph的Graph Networks，which intend to incorporate deep learning methods and relational reasoning,
 and is hopeful to solve the problem of relational reasoning in deep learning. 以下开始是论文读书笔记：
+
+代码参见：[graph_nets](https://github.com/deepmind/graph_nets)
 ## 0 abstract
 极易获取的数据和较低的计算代价 十分契合 deep learning methods的天然优势，使得AI在诸如视觉、语言、控制等领域取得了很大的进步。
 但是，人工智能的很多defining characteristics，目前的方法无法实现，**具体来讲，在本文中作者指的是：人类将已知经验/知识推广到未知事物上的
@@ -301,8 +303,9 @@ GNs天然具有并行结构：φe和φv分别在edges和nodes上复用。这意�
 
 复用φe和φv可以提高GNs的样本效率：用于优化GNs的φe和φv的样本数量分别是所有训练图上的edges和nodes的数量。
 
-for open-souce code for buildinig GNs，refers to [graph_nets]()
+for open-souce code for buildinig GNs，refers to [graph_nets](https://github.com/deepmind/graph_nets)
 ### 4.5 summary
+略
 ## 5 discussion
 ## 5.1 combinational generalization in graph networks
 ## 5.2 limitations of graph networks
