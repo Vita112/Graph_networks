@@ -307,12 +307,38 @@ for open-souce code for buildinig GNs，refers to [graph_nets](https://github.co
 ### 4.5 summary
 略
 ## 5 discussion
-## 5.1 combinational generalization in graph networks
-## 5.2 limitations of graph networks
-## 5.3 open questions
-## 5.4 integrative approaches for learning and stucture
-## 5.5 conclusion
+conclusion：CNNs and RNNs do contain relational inductive biases, **they cannot naturally handle more structured representations such as sets or graphs**. 
 
+we advocated for building stronger relational inductive biases into deep learning
+architectures by applying *a graph network,which performs computations over graph-structured data*.
+## 5.1 combinational generalization in graph networks图网络中的泛化组合
+关于GNs的泛化组合能力的研究：(ps:并没有我感兴趣的内容，概略列出如下)
+> 1. Battaglia等（2016）发现，受过训练以进行 one-step物理状态预测的GNs可以模拟数千个未来的时间步长，并且训练期间使用有经验的 实体数量的两倍或者一半时，也表现出精确的 对物理系统的零射击转移.
+> 2. Sanchez-Gonzalez等（2018）在更复杂的物理控制设置中发现了类似的结果.
+> 3. Bello等（2016）表明，GNs可以很好地概括到比他们接受过训练的大小不同的问题；同样，Toyer等 （2017）显示了对不同规模计划问题的泛化；Hamilton等（2017）展示了 为之前未见的数据产生有用的node embeddings。
+## 5.2 limitations of graph networks
+1. for GNs, it cannot be guarranteed to solve some classes of problems。例如无法区分某些非同构图.
+
+2. for graphs,notions like recursion, control flow, and conditional iteration are not straightforward to represent with graph, and minimally require additional assumptions.
+## 5.3 open questions-未解决的问题
++ 我们从哪里获得用于操作图网络的图？where do the graphs come from that graph networks operated over?
+
+深度学习的标志之一是 它能够对原始感官数据raw sensory data执行复杂的计算，比如images和text，但目前尚不清楚 将感官数据转换为更加结构化的表示（如图形）的最佳方式。
++ 许多图结构比完全连接图结构更稀疏，并且，如何诱导这种稀疏性是一个悬而未决的问题。
+
+**as of yet there is no single method which can reliably extract discrete entities from sensory data**.
++ 如何在计算过程中，自适应地修改图结构？how to adaptively modify graph structures during the course of computation?
+
+如果一个对象分成多个部分，则表示该对象的节点 也应该分成多个节点。类似的，如果只表示那些有联系的对象之间的edges可能很有用，因此要求能够依据上下文 来添加或者删除edges的能力。**关于如何支持这种适应性的问题正在积极研究中**。GNs操作的实体和关系通常对应于人类理解的事务，因此支持解释性更强的分析和可视化。**an interesting direction for future work is to further explore the interpretability of the behavior of graph networks**.
+## 5.4 integrative approaches for learning and stucture学习和结构的整合方法
+语言树linguistic trees (Socher et al.,2011a,b, 2012, 2013; Tai et al., 2015; Andreas et al., 2016)
+
+状态-行为图中的部分树遍历partial tree traversals in a state-action graph (Guez et al., 2018; Farquhar et al., 2018)
+
+层级行动策略hierarchical action policies (Andreas et al., 2017),多代理通信信道multi-agent communication channels (Foerster et al., 2016)等
+## 5.5 conclusion
+embrace integrative approaches to draw ideas from human cognition, traditional computer science, standard engineering practice, and modern deep learning methods.
+(采用综合方法，综合利用人类认知，传统CS，标准工程实践和现代深度学习)
 ## 6 references
 ### 6.1 critiques about deep learning methods
 Marcus, 2001; Shalev-Shwartz et al., 2017; Lake et al., 2017; Lake and Baroni, 2018; Marcus, 2018a,b; Pearl, 2018; Yuille and
