@@ -9,7 +9,7 @@ graphs，建模non-structural sensory data时，there is no effective methods.
 
 **graph neural networks are connectionist models that capture the dependence of graphs via message passing between the nodes of graphs.
 GNNs是图领域的深度学习方法，可以保持在 一个以任意深度表示其邻域信息 的状态**. 近期，**graph convolutional network(GCN) and gated graph neural network(GGNN)** 在很多任务上，表现出突破性的进展。
-## 1 introduction
+## 0 introduction
 graphs have the great expressive power of graphs:  can be used as denotation of a large number of systems across various areas including
 social science, natural science, knowladge graphs and other research areas.
 
@@ -33,5 +33,34 @@ graph embedding learns to represent nodes, edges or subgraphs in low-dimentional
 基于CNNs和graph embeding，GNNs可以对 由元素及其依赖性组成的输入和输出建模；同时，使用RNN kernel对图上的扩散过程进行建模。
 + why graph neural networks are worth investigating？
 
-1. CNNs 和 RNNs按特定的顺序对节点特征进行堆栈叠加，因此它们无法处理graph input。
+1. CNNs 和 RNNs按特定的顺序对节点特征进行堆栈叠加，因此它们无法处理graph input。在GNNs中，网络分别在每一个节点传播，忽略了the input order of nodes,也就是说** the output of GNNs is invariant for the input order of nodes**.
+
+2. an edge in a graph represents the information of dependency between 2 nodes. **GNNs can do propagation guided by the graph sturcture instead of using it as part of nodes by a weighted sum of the states of their neighborhood(通过他们的邻居状态的加权和 来更新隐藏状态)**。
+
+3. 推理是高水平AI的重要研究主题，而人类大脑的reasoning process主要基于来自日常经验的图。GNNs explore to generate the graph from non-structural data like images or documents.
+## 1 related work
++ original graph nueral  networks 《The graph neural network model》in 2009
+
+give a formal definition of early graph nueral network approaches.
++ a unified framework-MoNet 《geometric deep learning on graphs and manifolds using mixture model cnns》in 2017**非欧几里得数据:图和流形**
+
+generalize CNN architectures to non-Euclidean domains(graph and manifolds) and the framework could generalize several spectral mothods on graphs or manifolds.
+
++ in this paper
+
+focus on problems defined on graphs and we also investigate other mechanisms used in graph neural networks ,比如 gete mechanism、attention mechanism、skip connection。
+## 2 Models
+![notations_used_in_this_paper]()
+## 2.1 Graph Neural Networks- original graph neural networks
+在一个图中，每个node天然地由它的featurs和the related nodes定义。GNN的目标是：learn a state embedding $h_{v}\in \Re ^{s}$, 这个state embedding包含每个节点的邻居的信息。$h_{v}$是一个s-dimension vector of node v，被用于产生一个输出$o_{v}$,比如a node label。本文定义f为
+一个parametric function - local transition function局部转移函数，这个函数在所有节点中共享，而且根据input neighborhood更新节点状态；定义g为local output function局部输出函数，描述输出如何产生。于是有：
+$$h_{v}= f(X_{v},X_{co\[v]},h_{ne\[v]},X_{ne\[v]})\\\\
+o_{v}=g(h_{v},X_{v})$$
+其中，$X_{v},X_{co\[v]},h_{ne\[v]},X_{ne\[v]}$分别是v的feature，顶点edges的features，the states，features of the nodes in the neighbourhood of v。定义**H, O, X, $X_N$分别是 通过堆栈所有的状态， 所有的输出，所有的特征，所有的节点特征 而得到的向量，于是：
+$$H=F(H,X)\\\\
+O=G(H,X_{N})$$
+其中，F是global transition function，G是global output function，分别由在一个图中堆栈所有节点的f和g得到。
+
+
+
 
