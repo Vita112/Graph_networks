@@ -46,7 +46,7 @@ generalize CNN architectures to non-Euclidean domains(graph and manifolds) and t
 
 + in this paper
 
-focus on problems defined on graphs and we also investigate other mechanisms used in graph neural networks ,比如 gete mechanism、attention mechanism、skip connection。
+focus on problems defined on graphs and we also investigate other mechanisms used in graph neural networks ,比如 gate mechanism、attention mechanism、skip connection。
 ## 2 Models
 ![notations_used_in_this_paper](https://github.com/Vita112/Graph_networks/blob/master/img/notations_used_in%E3%80%9002%E3%80%91.png)
 ### 2.1 Graph Neural Networks- original graph neural networks
@@ -104,14 +104,40 @@ $$\mathbf{W}\_{r}=\sum_{1}^{B}a_{r_{b}}V_{b}$$
 ### 2.2.2 propagation types-several modifications on propagation step, and learn representations with higher qualilty
 模型中的propagation step和output step对于获得 hidden state of nodes(or edges)是十分重要的。下图中列出了 对原始图神经网络的传播步骤进行一些主要修正后的GNNs的变体：
 
-![an_overview_of_variants_of_graph_neural_networks]()
+![an_overview_of_variants_of_graph_neural_networks](https://github.com/Vita112/Graph_networks/blob/master/img/an_overview_of_variants_of_graph_neural_networks.png)
 
 接下来是GNN不同变体的比较：
 
-![different_variants_of_graph_neural_networks]()
+![different_variants_of_graph_neural_networks](https://github.com/Vita112/Graph_networks/blob/master/img/different_variants_of_graph_neural_networks.png)
 
 **不同的变体使用了不同的aggregators来聚集来自每一个节点邻居的信息，而且，使用特定的updaters来更新节点的隐藏状态**。
-+ convolution
++ **1. convolution**
+
++ **2. gate**
+
++ **3. attention**
+
++ **4. Skip connection**
+
+### 2.2.3 training methods
+### 2.3 general frameworks通用框架
++ **1. message passing nueral networks**
+
++ **2. non-local neural networks**
+
++ **3. graph networks**
+
+## 3 applications 
+### 3.1 structural scenarios结构化场景
+### 3.2 non-structural scenarios非结构化场景
+### 3.3 other scenarios
+## 4 open problems
+### 4.1 shallow structure
+### 4.2 dynamic graphs
+### 4.3 non-structural scenarios
+## 5 conclusion
+
+
 
 
 
